@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">Finance Tracker</string>
+
+    <string name="nav_dashboard">Inicio</string>
+    <string name="nav_shopping">Compras</string>
+    <string name="nav_services">Servicios</string>
+    <string name="nav_incomes">Ingresos</string>
+    <string name="nav_settings">Ajustes</string>
+
+    <string name="dashboard_title">Panel principal</string>
+    <string name="dashboard_subtitle">Aquí aparecerán tus estadísticas</string>
+
+    <string name="shopping_title">Compras</string>
+    <string name="shopping_subtitle">Aquí aparecerán tus listas de la compra</string>
+
+    <string name="services_title">Servicios</string>
+    <string name="services_subtitle">Teléfono, internet, Netflix y más</string>
+
+    <string name="incomes_title">Ingresos</string>
+    <string name="incomes_subtitle">Aquí aparecerán tus ingresos</string>
+
+    <string name="settings_title">Ajustes</string>
+    <string name="settings_subtitle">Idioma, tema y preferencias</string>
+
+    <string name="settings_language">Idioma</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_dark_mode">Apariencia</string>
+
+    <string name="language_english">Inglés</string>
+    <string name="language_spanish">Español</string>
+    <string name="language_korean">Coreano</string>
+
+    <string name="theme_ocean">Ocean</string>
+    <string name="theme_forest">Forest</string>
+    <string name="theme_royal">Royal</string>
+
+    <string name="theme_mode_system">Sistema</string>
+    <string name="theme_mode_light">Claro</string>
+    <string name="theme_mode_dark">Oscuro</string>
+
+    <string name="language_system">Predeterminado del sistema</string>
+    <string name="action_change_language">Cambiar idioma</string>
+    <string name="action_change_theme">Cambiar tema</string>
+    <string name="action_change_appearance">Cambiar apariencia</string>
+
+
+</resources>
