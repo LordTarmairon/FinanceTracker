@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import com.gorthaur.financetracker.data.local.dao.ItemCatalogDao
 import com.gorthaur.financetracker.data.local.dao.ShoppingItemDao
 import com.gorthaur.financetracker.data.local.dao.ShoppingListDao
+import com.gorthaur.financetracker.data.local.dao.TagDao
 import com.gorthaur.financetracker.data.local.entity.ItemCatalogEntity
 import com.gorthaur.financetracker.data.local.entity.ShoppingItemEntity
 import com.gorthaur.financetracker.data.local.entity.ShoppingItemTagCrossRef
@@ -26,4 +27,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun itemCatalogDao(): ItemCatalogDao
     abstract fun shoppingListDao(): ShoppingListDao
     abstract fun shoppingItemDao(): ShoppingItemDao
+    abstract fun tagDao(): TagDao
 }
