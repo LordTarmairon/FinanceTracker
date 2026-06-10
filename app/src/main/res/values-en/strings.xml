@@ -42,4 +42,102 @@
     <string name="action_change_language">Change language</string>
     <string name="action_change_theme">Change theme</string>
     <string name="action_change_appearance">Change appearance</string>
+
+    <!-- Common actions -->
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_ok">OK</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_income">Income</string>
+    <string name="dashboard_expense">Expenses</string>
+    <string name="dashboard_balance">Balance</string>
+    <string name="dashboard_by_category">Expenses by category</string>
+    <string name="dashboard_monthly">Income vs expenses</string>
+    <string name="dashboard_recent">Recent transactions</string>
+    <string name="dashboard_empty">No transactions yet. Tap + to add one or scan a receipt.</string>
+    <string name="legend_income">Income</string>
+    <string name="legend_expense">Expenses</string>
+
+    <!-- Floating button -->
+    <string name="fab_actions">Add</string>
+    <string name="fab_scan">Scan receipt (AI)</string>
+    <string name="fab_add_expense">Add expense</string>
+    <string name="fab_add_income">Add income</string>
+
+    <!-- AI scan -->
+    <string name="scan_loading">Analyzing receipt with AI…</string>
+    <string name="scan_choose_source">Scan receipt</string>
+    <string name="scan_choose_hint">Pick a photo of the receipt and AI will extract the data.</string>
+    <string name="scan_camera">Camera</string>
+    <string name="scan_gallery">Gallery</string>
+    <string name="scan_error_title">Scan failed</string>
+    <string name="scan_error_no_key">Set your API key in Settings to use AI.</string>
+    <string name="scan_error_network">Connection error. Check your internet.</string>
+    <string name="scan_error_api">The AI returned an error.</string>
+    <string name="scan_error_parse">Could not read the receipt data.</string>
+    <string name="scan_error_image">Could not read the image.</string>
+
+    <!-- Transaction form -->
+    <string name="tx_new_title">New transaction</string>
+    <string name="tx_edit_title">Edit transaction</string>
+    <string name="tx_type_expense">Expense</string>
+    <string name="tx_type_income">Income</string>
+    <string name="tx_field_title">Description</string>
+    <string name="tx_field_amount">Amount</string>
+    <string name="tx_field_currency">Currency</string>
+    <string name="tx_field_category">Category</string>
+    <string name="tx_field_date">Date</string>
+    <string name="tx_field_notes">Notes</string>
+    <string name="tx_pick_date">Pick</string>
+
+    <!-- Income -->
+    <string name="incomes_empty">No income recorded yet.</string>
+    <string name="incomes_add">Add income</string>
+
+    <!-- Services -->
+    <string name="services_empty">No recurring services yet.</string>
+    <string name="services_add">Add service</string>
+    <string name="service_monthly_total">Monthly total</string>
+    <string name="service_name">Name</string>
+    <string name="service_amount">Amount</string>
+    <string name="service_billing_day">Billing day</string>
+    <string name="service_active">Active</string>
+    <string name="service_inactive">Inactive</string>
+    <string name="service_register_payment">Register payment</string>
+    <string name="service_new_title">New service</string>
+    <string name="service_edit_title">Edit service</string>
+
+    <!-- Shopping -->
+    <string name="shopping_empty">You have no shopping lists yet.</string>
+    <string name="shopping_add_list">New list</string>
+    <string name="shopping_list_name">List name</string>
+    <string name="shopping_list_desc">Description</string>
+    <string name="shopping_total">Total</string>
+    <string name="shopping_empty_items">This list is empty. Add items with +.</string>
+    <string name="shopping_item_add">Add item</string>
+    <string name="shopping_item_name">Item</string>
+    <string name="shopping_item_price">Price</string>
+    <string name="shopping_item_qty">Qty</string>
+
+    <!-- Settings -->
+    <string name="settings_currency">Default currency</string>
+    <string name="settings_api_key">API key (AI)</string>
+    <string name="settings_api_key_hint">Needed to scan receipts with AI. Stored only on this device.</string>
+
+    <!-- Categories -->
+    <string name="category_groceries">Groceries</string>
+    <string name="category_restaurant">Restaurant</string>
+    <string name="category_transport">Transport</string>
+    <string name="category_utilities">Utilities</string>
+    <string name="category_entertainment">Entertainment</string>
+    <string name="category_health">Health</string>
+    <string name="category_shopping">Shopping</string>
+    <string name="category_housing">Housing</string>
+    <string name="category_other_expense">Other expenses</string>
+    <string name="category_salary">Salary</string>
+    <string name="category_freelance">Freelance</string>
+    <string name="category_investment">Investments</string>
+    <string name="category_gift">Gift</string>
+    <string name="category_other_income">Other income</string>
 </resources>

@@ -43,5 +43,102 @@
     <string name="action_change_theme">Cambiar tema</string>
     <string name="action_change_appearance">Cambiar apariencia</string>
 
+    <!-- Acciones comunes -->
+    <string name="action_save">Guardar</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_ok">Aceptar</string>
+
+    <!-- Panel -->
+    <string name="dashboard_income">Ingresos</string>
+    <string name="dashboard_expense">Gastos</string>
+    <string name="dashboard_balance">Balance</string>
+    <string name="dashboard_by_category">Gastos por categoría</string>
+    <string name="dashboard_monthly">Ingresos vs gastos</string>
+    <string name="dashboard_recent">Movimientos recientes</string>
+    <string name="dashboard_empty">Aún no hay movimientos. Pulsa + para añadir o escanear un ticket.</string>
+    <string name="legend_income">Ingresos</string>
+    <string name="legend_expense">Gastos</string>
+
+    <!-- Botón flotante -->
+    <string name="fab_actions">Añadir</string>
+    <string name="fab_scan">Escanear ticket (IA)</string>
+    <string name="fab_add_expense">Añadir gasto</string>
+    <string name="fab_add_income">Añadir ingreso</string>
+
+    <!-- Escaneo con IA -->
+    <string name="scan_loading">Analizando el ticket con IA…</string>
+    <string name="scan_choose_source">Escanear ticket</string>
+    <string name="scan_choose_hint">Elige una foto del ticket para que la IA extraiga los datos.</string>
+    <string name="scan_camera">Cámara</string>
+    <string name="scan_gallery">Galería</string>
+    <string name="scan_error_title">No se pudo escanear</string>
+    <string name="scan_error_no_key">Configura tu clave de API en Ajustes para usar la IA.</string>
+    <string name="scan_error_network">Error de conexión. Revisa tu internet.</string>
+    <string name="scan_error_api">La IA devolvió un error.</string>
+    <string name="scan_error_parse">No se pudieron interpretar los datos del ticket.</string>
+    <string name="scan_error_image">No se pudo leer la imagen.</string>
+
+    <!-- Formulario de movimiento -->
+    <string name="tx_new_title">Nuevo movimiento</string>
+    <string name="tx_edit_title">Editar movimiento</string>
+    <string name="tx_type_expense">Gasto</string>
+    <string name="tx_type_income">Ingreso</string>
+    <string name="tx_field_title">Concepto</string>
+    <string name="tx_field_amount">Importe</string>
+    <string name="tx_field_currency">Moneda</string>
+    <string name="tx_field_category">Categoría</string>
+    <string name="tx_field_date">Fecha</string>
+    <string name="tx_field_notes">Notas</string>
+    <string name="tx_pick_date">Elegir</string>
+
+    <!-- Ingresos -->
+    <string name="incomes_empty">Aún no has registrado ingresos.</string>
+    <string name="incomes_add">Añadir ingreso</string>
+
+    <!-- Servicios -->
+    <string name="services_empty">Aún no has añadido servicios recurrentes.</string>
+    <string name="services_add">Añadir servicio</string>
+    <string name="service_monthly_total">Total mensual</string>
+    <string name="service_name">Nombre</string>
+    <string name="service_amount">Importe</string>
+    <string name="service_billing_day">Día de cobro</string>
+    <string name="service_active">Activo</string>
+    <string name="service_inactive">Inactivo</string>
+    <string name="service_register_payment">Registrar pago</string>
+    <string name="service_new_title">Nuevo servicio</string>
+    <string name="service_edit_title">Editar servicio</string>
+
+    <!-- Compras -->
+    <string name="shopping_empty">Aún no tienes listas de la compra.</string>
+    <string name="shopping_add_list">Nueva lista</string>
+    <string name="shopping_list_name">Nombre de la lista</string>
+    <string name="shopping_list_desc">Descripción</string>
+    <string name="shopping_total">Total</string>
+    <string name="shopping_empty_items">Esta lista está vacía. Añade productos con +.</string>
+    <string name="shopping_item_add">Añadir producto</string>
+    <string name="shopping_item_name">Producto</string>
+    <string name="shopping_item_price">Precio</string>
+    <string name="shopping_item_qty">Cantidad</string>
+
+    <!-- Ajustes -->
+    <string name="settings_currency">Moneda por defecto</string>
+    <string name="settings_api_key">Clave de API (IA)</string>
+    <string name="settings_api_key_hint">Necesaria para escanear tickets con IA. Se guarda solo en este dispositivo.</string>
+
+    <!-- Categorías -->
+    <string name="category_groceries">Supermercado</string>
+    <string name="category_restaurant">Restaurante</string>
+    <string name="category_transport">Transporte</string>
+    <string name="category_utilities">Suministros</string>
+    <string name="category_entertainment">Ocio</string>
+    <string name="category_health">Salud</string>
+    <string name="category_shopping">Compras</string>
+    <string name="category_housing">Vivienda</string>
+    <string name="category_other_expense">Otros gastos</string>
+    <string name="category_salary">Nómina</string>
+    <string name="category_freelance">Autónomo</string>
+    <string name="category_investment">Inversiones</string>
+    <string name="category_gift">Regalo</string>
+    <string name="category_other_income">Otros ingresos</string>
 
 </resources>

@@ -7,6 +7,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.gorthaur.financetracker.core.model.AppLanguage
 import com.gorthaur.financetracker.core.model.AppThemeMode
 import com.gorthaur.financetracker.core.model.AppThemePalette
+import com.gorthaur.financetracker.core.model.CurrencyCode
 import com.gorthaur.financetracker.core.model.FinanceAppPreferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -19,6 +20,8 @@ class SettingsDataStore (private val context: Context) {
         val language = stringPreferencesKey("language")
         val themePalette = stringPreferencesKey("theme_palette")
         val themeMode = stringPreferencesKey("theme_mode")
+        val defaultCurrency = stringPreferencesKey("default_currency")
+        val aiApiKey = stringPreferencesKey("ai_api_key")
     }
 
     val preferencesFlow: Flow<FinanceAppPreferences> = context.dataStore.data.map { prefs ->
@@ -31,7 +34,11 @@ class SettingsDataStore (private val context: Context) {
                 ?: AppThemePalette.OCEAN,
             themeMode = prefs[Keys.themeMode]
                 ?.let { runCatching { AppThemeMode.valueOf(it) }.getOrNull() }
-                ?: AppThemeMode.SYSTEM
+                ?: AppThemeMode.SYSTEM,
+            defaultCurrency = prefs[Keys.defaultCurrency]
+                ?.let { CurrencyCode.fromCode(it) }
+                ?: CurrencyCode.EUR,
+            aiApiKey = prefs[Keys.aiApiKey] ?: ""
         )
     }
     suspend fun setLanguage(language: AppLanguage) {
@@ -49,6 +56,18 @@ class SettingsDataStore (private val context: Context) {
     suspend fun setThemeMode(mode: AppThemeMode) {
         context.dataStore.edit { prefs ->
             prefs[Keys.themeMode] = mode.name
+        }
+    }
+
+    suspend fun setDefaultCurrency(currency: CurrencyCode) {
+        context.dataStore.edit { prefs ->
+            prefs[Keys.defaultCurrency] = currency.code
+        }
+    }
+
+    suspend fun setAiApiKey(apiKey: String) {
+        context.dataStore.edit { prefs ->
+            prefs[Keys.aiApiKey] = apiKey.trim()
         }
     }
 }

@@ -3,6 +3,7 @@ package com.gorthaur.financetracker.ui.app
 import com.gorthaur.financetracker.core.model.AppLanguage
 import com.gorthaur.financetracker.core.model.AppThemeMode
 import com.gorthaur.financetracker.core.model.AppThemePalette
+import com.gorthaur.financetracker.core.model.CurrencyCode
 import com.gorthaur.financetracker.core.model.FinanceAppPreferences
 import com.gorthaur.financetracker.data.local.SettingsDataStore
 import kotlinx.coroutines.CoroutineScope
@@ -42,6 +43,18 @@ class FinanceAppState(
     fun setThemeMode(mode: AppThemeMode) {
         scope.launch {
             settingsDataStore.setThemeMode(mode)
+        }
+    }
+
+    fun setDefaultCurrency(currency: CurrencyCode) {
+        scope.launch {
+            settingsDataStore.setDefaultCurrency(currency)
+        }
+    }
+
+    fun setAiApiKey(apiKey: String) {
+        scope.launch {
+            settingsDataStore.setAiApiKey(apiKey)
         }
     }
 }
