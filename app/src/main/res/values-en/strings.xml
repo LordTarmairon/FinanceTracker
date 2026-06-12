@@ -58,6 +58,9 @@
     <string name="dashboard_empty">No transactions yet. Tap + to add one or scan a receipt.</string>
     <string name="legend_income">Income</string>
     <string name="legend_expense">Expenses</string>
+    <string name="filter_all">All</string>
+    <string name="filter_expenses">Expenses</string>
+    <string name="filter_income">Income</string>
 
     <!-- Floating button -->
     <string name="fab_actions">Add</string>

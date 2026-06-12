@@ -58,6 +58,9 @@
     <string name="dashboard_empty">Aún no hay movimientos. Pulsa + para añadir o escanear un ticket.</string>
     <string name="legend_income">Ingresos</string>
     <string name="legend_expense">Gastos</string>
+    <string name="filter_all">Todos</string>
+    <string name="filter_expenses">Gastos</string>
+    <string name="filter_income">Ingresos</string>
 
     <!-- Botón flotante -->
     <string name="fab_actions">Añadir</string>

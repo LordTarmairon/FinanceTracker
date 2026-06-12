@@ -16,6 +16,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -48,6 +49,7 @@ import com.gorthaur.financetracker.ui.components.MonthlyBarChart
 import com.gorthaur.financetracker.ui.components.SummaryCard
 import com.gorthaur.financetracker.ui.components.TransactionRow
 import com.gorthaur.financetracker.ui.components.rememberImagePickController
+import com.gorthaur.financetracker.ui.screens.dashboard.DashboardFilter
 import com.gorthaur.financetracker.ui.screens.dashboard.DashboardViewModel
 import com.gorthaur.financetracker.ui.screens.transactions.ScanState
 import com.gorthaur.financetracker.ui.screens.transactions.TransactionFormData
@@ -182,6 +184,26 @@ fun DashboardScreen(
                     text = stringResource(R.string.dashboard_recent),
                     style = MaterialTheme.typography.titleMedium
                 )
+            }
+
+            item {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    FilterChip(
+                        selected = state.filter == DashboardFilter.ALL,
+                        onClick = { dashboardViewModel.setFilter(DashboardFilter.ALL) },
+                        label = { Text(stringResource(R.string.filter_all)) }
+                    )
+                    FilterChip(
+                        selected = state.filter == DashboardFilter.EXPENSE,
+                        onClick = { dashboardViewModel.setFilter(DashboardFilter.EXPENSE) },
+                        label = { Text(stringResource(R.string.filter_expenses)) }
+                    )
+                    FilterChip(
+                        selected = state.filter == DashboardFilter.INCOME,
+                        onClick = { dashboardViewModel.setFilter(DashboardFilter.INCOME) },
+                        label = { Text(stringResource(R.string.filter_income)) }
+                    )
+                }
             }
 
             if (state.recent.isEmpty()) {

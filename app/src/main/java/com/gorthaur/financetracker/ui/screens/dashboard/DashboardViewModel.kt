@@ -10,6 +10,7 @@ import com.gorthaur.financetracker.data.local.SettingsDataStore
 import com.gorthaur.financetracker.data.local.database.DatabaseProvider
 import com.gorthaur.financetracker.data.local.entity.TransactionEntity
 import com.gorthaur.financetracker.data.repository.FinanceRepository
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -18,6 +19,9 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.YearMonth
 import java.time.ZoneId
+
+/** Filtro de la lista de movimientos recientes del panel. */
+enum class DashboardFilter { ALL, EXPENSE, INCOME }
 
 data class CategorySlice(
     val category: TransactionCategory,
@@ -40,6 +44,7 @@ data class DashboardUiState(
     val expenseSlices: List<CategorySlice> = emptyList(),
     val monthlyBars: List<MonthBar> = emptyList(),
     val recent: List<TransactionEntity> = emptyList(),
+    val filter: DashboardFilter = DashboardFilter.ALL,
     val hasData: Boolean = false
 )
 
@@ -47,13 +52,19 @@ class DashboardViewModel(app: Application) : AndroidViewModel(app) {
 
     private val repository = FinanceRepository(DatabaseProvider.getDatabase(app))
     private val settings = SettingsDataStore(app)
+    private val filter = MutableStateFlow(DashboardFilter.ALL)
+
+    fun setFilter(value: DashboardFilter) {
+        filter.value = value
+    }
 
     val uiState: StateFlow<DashboardUiState> =
         combine(
             repository.observeTransactions(),
-            settings.preferencesFlow.map { it.defaultCurrency }
-        ) { transactions, currency ->
-            buildState(transactions, currency)
+            settings.preferencesFlow.map { it.defaultCurrency },
+            filter
+        ) { transactions, currency, activeFilter ->
+            buildState(transactions, currency, activeFilter)
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
@@ -62,7 +73,8 @@ class DashboardViewModel(app: Application) : AndroidViewModel(app) {
 
     private fun buildState(
         transactions: List<TransactionEntity>,
-        currency: CurrencyCode
+        currency: CurrencyCode,
+        activeFilter: DashboardFilter
     ): DashboardUiState {
         val zone = ZoneId.systemDefault()
         val now = YearMonth.now()
@@ -93,6 +105,17 @@ class DashboardViewModel(app: Application) : AndroidViewModel(app) {
                 )
             }
 
+        // Movimientos recientes según el filtro activo.
+        val recent = transactions
+            .filter {
+                when (activeFilter) {
+                    DashboardFilter.ALL -> true
+                    DashboardFilter.EXPENSE -> it.type == TransactionType.EXPENSE.name
+                    DashboardFilter.INCOME -> it.type == TransactionType.INCOME.name
+                }
+            }
+            .take(20)
+
         // Barras de los últimos 6 meses (ingresos vs gastos).
         val bars = (5 downTo 0).map { offset ->
             val month = now.minusMonths(offset.toLong())
@@ -112,7 +135,8 @@ class DashboardViewModel(app: Application) : AndroidViewModel(app) {
             currency = currency,
             expenseSlices = slices,
             monthlyBars = bars,
-            recent = transactions.take(15),
+            recent = recent,
+            filter = activeFilter,
             hasData = transactions.isNotEmpty()
         )
     }
