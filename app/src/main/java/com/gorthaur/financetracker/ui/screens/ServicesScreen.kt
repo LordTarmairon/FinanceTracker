@@ -55,7 +55,7 @@ fun ServicesScreen(
     viewModel: ServicesViewModel = viewModel()
 ) {
     val services by viewModel.services.collectAsStateWithLifecycle()
-    val monthlyTotal by viewModel.monthlyTotal.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var editing by remember { mutableStateOf<ServiceFormData?>(null) }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -73,7 +73,7 @@ fun ServicesScreen(
             item {
                 Text(
                     text = stringResource(R.string.service_monthly_total) + ": " +
-                        Formatters.money(monthlyTotal, CurrencyCode.EUR),
+                        Formatters.money(uiState.monthlyTotal, uiState.currency),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -124,6 +124,7 @@ fun ServicesScreen(
                         category = result.category,
                         billingDayOfMonth = day,
                         active = result.active,
+                        monthly = result.monthly,
                         notes = result.notes.ifBlank { null }
                     )
                 }
@@ -150,7 +151,8 @@ private fun ServiceCard(
                         fontWeight = FontWeight.SemiBold
                     )
                     Text(
-                        text = stringResource(R.string.service_billing_day) + " " + service.billingDayOfMonth,
+                        text = stringResource(R.string.service_billing_day) + " " + service.billingDayOfMonth +
+                            (if (service.monthly) " · " + stringResource(R.string.service_monthly) else ""),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -188,6 +190,7 @@ data class ServiceFormData(
     val category: TransactionCategory = TransactionCategory.UTILITIES,
     val billingDay: String = "1",
     val active: Boolean = true,
+    val monthly: Boolean = true,
     val notes: String = ""
 )
 
@@ -199,6 +202,7 @@ private fun ServiceEntity.toFormData(): ServiceFormData = ServiceFormData(
     category = TransactionCategory.fromKey(category, TransactionType.EXPENSE),
     billingDay = billingDayOfMonth.toString(),
     active = active,
+    monthly = monthly,
     notes = notes.orEmpty()
 )
 
@@ -214,6 +218,7 @@ private fun ServiceFormDialog(
     var category by remember { mutableStateOf(initial.category) }
     var billingDay by remember { mutableStateOf(initial.billingDay) }
     var active by remember { mutableStateOf(initial.active) }
+    var monthly by remember { mutableStateOf(initial.monthly) }
     var notes by remember { mutableStateOf(initial.notes) }
     var currencyExpanded by remember { mutableStateOf(false) }
     var categoryExpanded by remember { mutableStateOf(false) }
@@ -314,6 +319,17 @@ private fun ServiceFormDialog(
                     modifier = Modifier.fillMaxWidth()
                 )
                 Row(verticalAlignment = Alignment.CenterVertically) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(stringResource(R.string.service_monthly))
+                        Text(
+                            text = stringResource(R.string.service_monthly_hint),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    Switch(checked = monthly, onCheckedChange = { monthly = it })
+                }
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(stringResource(R.string.service_active), modifier = Modifier.weight(1f))
                     Switch(checked = active, onCheckedChange = { active = it })
                 }
@@ -337,6 +353,7 @@ private fun ServiceFormDialog(
                             category = category,
                             billingDay = billingDay.ifBlank { "1" },
                             active = active,
+                            monthly = monthly,
                             notes = notes
                         )
                     )

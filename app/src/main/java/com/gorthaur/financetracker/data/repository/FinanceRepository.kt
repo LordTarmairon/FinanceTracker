@@ -42,6 +42,8 @@ class FinanceRepository(private val db: AppDatabase) {
 
     fun observeServices(): Flow<List<ServiceEntity>> = serviceDao.observeAll()
 
+    suspend fun getServices(): List<ServiceEntity> = serviceDao.getAll()
+
     suspend fun addService(service: ServiceEntity): Long = serviceDao.insert(service)
 
     suspend fun updateService(service: ServiceEntity) = serviceDao.update(service)

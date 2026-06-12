@@ -23,6 +23,9 @@ interface ServiceDao {
     @Query("SELECT * FROM services ORDER BY billingDayOfMonth ASC, name ASC")
     fun observeAll(): Flow<List<ServiceEntity>>
 
+    @Query("SELECT * FROM services")
+    suspend fun getAll(): List<ServiceEntity>
+
     @Query("DELETE FROM services WHERE id = :id")
     suspend fun deleteById(id: Long)
 }

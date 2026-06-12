@@ -110,6 +110,8 @@
     <string name="service_register_payment">Registrar pago</string>
     <string name="service_new_title">Nuevo servicio</string>
     <string name="service_edit_title">Editar servicio</string>
+    <string name="service_monthly">Mensual</string>
+    <string name="service_monthly_hint">Se cobra automáticamente cada mes mientras esté activo</string>
 
     <!-- Compras -->
     <string name="shopping_empty">Aún no tienes listas de la compra.</string>
@@ -134,6 +136,12 @@
 
     <!-- Ajustes -->
     <string name="settings_currency">Moneda por defecto</string>
+    <string name="settings_exchange_rates">Tipos de cambio</string>
+    <string name="settings_exchange_rates_hint">Unidades de cada moneda por 1 €. Se usan para convertir las estadísticas a tu moneda.</string>
+    <string name="settings_exchange_update">Actualizar de internet</string>
+    <string name="settings_exchange_updated">Tipos de cambio actualizados</string>
+    <string name="settings_exchange_failed">No se pudo actualizar (sin conexión)</string>
+    <string name="exchange_per_euro">1 € =</string>
     <string name="settings_api_key">Clave de API (IA)</string>
     <string name="settings_api_key_hint">Necesaria para escanear tickets con IA. Se guarda solo en este dispositivo.</string>
 

@@ -110,6 +110,8 @@
     <string name="service_register_payment">Register payment</string>
     <string name="service_new_title">New service</string>
     <string name="service_edit_title">Edit service</string>
+    <string name="service_monthly">Monthly</string>
+    <string name="service_monthly_hint">Charged automatically every month while active</string>
 
     <!-- Shopping -->
     <string name="shopping_empty">You have no shopping lists yet.</string>
@@ -134,6 +136,12 @@
 
     <!-- Settings -->
     <string name="settings_currency">Default currency</string>
+    <string name="settings_exchange_rates">Exchange rates</string>
+    <string name="settings_exchange_rates_hint">Units of each currency per 1 €. Used to convert the statistics to your currency.</string>
+    <string name="settings_exchange_update">Update from internet</string>
+    <string name="settings_exchange_updated">Exchange rates updated</string>
+    <string name="settings_exchange_failed">Could not update (no connection)</string>
+    <string name="exchange_per_euro">1 € =</string>
     <string name="settings_api_key">API key (AI)</string>
     <string name="settings_api_key_hint">Needed to scan receipts with AI. Stored only on this device.</string>
 

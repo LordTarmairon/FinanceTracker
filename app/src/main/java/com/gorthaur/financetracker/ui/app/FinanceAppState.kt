@@ -7,6 +7,7 @@ import com.gorthaur.financetracker.core.model.CurrencyCode
 import com.gorthaur.financetracker.core.model.FinanceAppPreferences
 import com.gorthaur.financetracker.core.util.AppLanguageManager
 import com.gorthaur.financetracker.data.local.SettingsDataStore
+import com.gorthaur.financetracker.data.remote.ExchangeRateClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -18,6 +19,8 @@ class FinanceAppState(
     private val settingsDataStore: SettingsDataStore,
     private val scope: CoroutineScope
 ) {
+    private val exchangeRateClient = ExchangeRateClient()
+
     var preferences by mutableStateOf(FinanceAppPreferences())
         private set
 
@@ -55,6 +58,26 @@ class FinanceAppState(
     fun setDefaultCurrency(currency: CurrencyCode) {
         scope.launch {
             settingsDataStore.setDefaultCurrency(currency)
+        }
+    }
+
+    /** Cambia manualmente cuántas unidades de [currency] equivalen a 1 €. */
+    fun setExchangeRate(currency: CurrencyCode, unitsPerEur: Double) {
+        scope.launch {
+            settingsDataStore.setExchangeRates(
+                preferences.exchangeRates.withRate(currency, unitsPerEur)
+            )
+        }
+    }
+
+    /** Actualiza los tipos de cambio desde internet. [onResult] indica el éxito. */
+    fun refreshExchangeRates(onResult: (Boolean) -> Unit) {
+        scope.launch {
+            val rates = exchangeRateClient.fetchLatest()
+            if (rates != null) {
+                settingsDataStore.setExchangeRates(rates)
+            }
+            onResult(rates != null)
         }
     }
 

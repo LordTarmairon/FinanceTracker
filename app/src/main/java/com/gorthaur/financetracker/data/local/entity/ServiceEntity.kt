@@ -19,5 +19,9 @@ data class ServiceEntity(
     /** Día del mes (1-31) en que se factura. */
     val billingDayOfMonth: Int,
     val active: Boolean = true,
+    /** Si es mensual, se cobra automáticamente cada mes mientras esté activo. */
+    val monthly: Boolean = true,
+    /** Fecha del último cobro generado (para no duplicarlo dentro del mismo mes). */
+    val lastChargedEpochMillis: Long? = null,
     val notes: String? = null
 )

@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.gorthaur.financetracker.core.model.CurrencyCode
+import com.gorthaur.financetracker.core.model.ExchangeRates
 import com.gorthaur.financetracker.core.model.TransactionCategory
 import com.gorthaur.financetracker.core.model.TransactionType
 import com.gorthaur.financetracker.data.local.SettingsDataStore
@@ -61,10 +62,10 @@ class DashboardViewModel(app: Application) : AndroidViewModel(app) {
     val uiState: StateFlow<DashboardUiState> =
         combine(
             repository.observeTransactions(),
-            settings.preferencesFlow.map { it.defaultCurrency },
+            settings.preferencesFlow,
             filter
-        ) { transactions, currency, activeFilter ->
-            buildState(transactions, currency, activeFilter)
+        ) { transactions, prefs, activeFilter ->
+            buildState(transactions, prefs.defaultCurrency, prefs.exchangeRates, activeFilter)
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
@@ -74,6 +75,7 @@ class DashboardViewModel(app: Application) : AndroidViewModel(app) {
     private fun buildState(
         transactions: List<TransactionEntity>,
         currency: CurrencyCode,
+        rates: ExchangeRates,
         activeFilter: DashboardFilter
     ): DashboardUiState {
         val zone = ZoneId.systemDefault()
@@ -84,15 +86,19 @@ class DashboardViewModel(app: Application) : AndroidViewModel(app) {
                 YearMonth.of(it.year, it.month)
             }
 
+        // Convierte el importe de cada movimiento a la moneda configurada.
+        fun amountIn(t: TransactionEntity): Double =
+            rates.convert(t.amount, t.currencyCode, currency)
+
         val thisMonth = transactions.filter { monthOf(it) == now }
-        val income = thisMonth.filter { it.type == TransactionType.INCOME.name }.sumOf { it.amount }
-        val expense = thisMonth.filter { it.type == TransactionType.EXPENSE.name }.sumOf { it.amount }
+        val income = thisMonth.filter { it.type == TransactionType.INCOME.name }.sumOf { amountIn(it) }
+        val expense = thisMonth.filter { it.type == TransactionType.EXPENSE.name }.sumOf { amountIn(it) }
 
         // Reparto de gastos del mes por categoría (para el gráfico de tarta).
         val expenseByCategory = thisMonth
             .filter { it.type == TransactionType.EXPENSE.name }
             .groupBy { TransactionCategory.fromKey(it.category, TransactionType.EXPENSE) }
-            .mapValues { entry -> entry.value.sumOf { it.amount } }
+            .mapValues { entry -> entry.value.sumOf { amountIn(it) } }
             .filterValues { it > 0 }
         val totalExpense = expenseByCategory.values.sum()
         val slices = expenseByCategory.entries
@@ -122,8 +128,8 @@ class DashboardViewModel(app: Application) : AndroidViewModel(app) {
             val ofMonth = transactions.filter { monthOf(it) == month }
             MonthBar(
                 label = month.month.name.take(3).lowercase().replaceFirstChar { it.uppercase() },
-                income = ofMonth.filter { it.type == TransactionType.INCOME.name }.sumOf { it.amount },
-                expense = ofMonth.filter { it.type == TransactionType.EXPENSE.name }.sumOf { it.amount }
+                income = ofMonth.filter { it.type == TransactionType.INCOME.name }.sumOf { amountIn(it) },
+                expense = ofMonth.filter { it.type == TransactionType.EXPENSE.name }.sumOf { amountIn(it) }
             )
         }
 
