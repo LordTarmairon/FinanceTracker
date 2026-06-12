@@ -329,7 +329,10 @@ private fun ShoppingListDetail(
                         item = item,
                         currency = currency,
                         onToggle = { viewModel.togglePurchased(item) },
-                        onEdit = { editingItem = item },
+                        onEdit = {
+                            pendingPhoto = null
+                            editingItem = item
+                        },
                         onDelete = { viewModel.deleteItem(item) }
                     )
                 }
@@ -398,7 +401,8 @@ private fun ShoppingListDetail(
             initialName = "",
             initialPrice = "",
             initialQuantity = "1",
-            photo = pendingPhoto,
+            pendingPhoto = pendingPhoto,
+            existingPhotoPath = null,
             onPickCamera = { imagePicker.takePhoto() },
             onPickGallery = { imagePicker.pickFromGallery() },
             onDismiss = {
@@ -419,13 +423,18 @@ private fun ShoppingListDetail(
             initialName = item.name,
             initialPrice = item.unitPrice?.let { formatAmount(it) } ?: "",
             initialQuantity = item.quantity.toString(),
-            photo = null,
-            onPickCamera = null,
-            onPickGallery = null,
-            onDismiss = { editingItem = null },
-            onSave = { name, price, qty ->
-                viewModel.updateItem(item, name, price, qty)
+            pendingPhoto = pendingPhoto,
+            existingPhotoPath = item.photoUri,
+            onPickCamera = { imagePicker.takePhoto() },
+            onPickGallery = { imagePicker.pickFromGallery() },
+            onDismiss = {
                 editingItem = null
+                pendingPhoto = null
+            },
+            onSave = { name, price, qty ->
+                viewModel.updateItem(item, name, price, qty, pendingPhoto)
+                editingItem = null
+                pendingPhoto = null
             }
         )
     }
@@ -505,9 +514,10 @@ private fun ItemDialog(
     initialName: String,
     initialPrice: String,
     initialQuantity: String,
-    photo: Uri?,
-    onPickCamera: (() -> Unit)?,
-    onPickGallery: (() -> Unit)?,
+    pendingPhoto: Uri?,
+    existingPhotoPath: String?,
+    onPickCamera: () -> Unit,
+    onPickGallery: () -> Unit,
     onDismiss: () -> Unit,
     onSave: (String, Double?, Int) -> Unit
 ) {
@@ -545,24 +555,25 @@ private fun ItemDialog(
                         modifier = Modifier.weight(1f)
                     )
                 }
-                if (onPickCamera != null && onPickGallery != null) {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        if (photo != null) {
-                            AsyncImage(
-                                model = photo,
-                                contentDescription = null,
-                                contentScale = ContentScale.Crop,
-                                modifier = Modifier
-                                    .size(48.dp)
-                                    .clip(RoundedCornerShape(8.dp))
-                            )
-                        }
-                        TextButton(onClick = onPickCamera) { Text(stringResource(R.string.scan_camera)) }
-                        TextButton(onClick = onPickGallery) { Text(stringResource(R.string.scan_gallery)) }
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    // Muestra la foto recién elegida o, si no, la que ya tuviera el ítem.
+                    val previewModel: Any? = pendingPhoto
+                        ?: existingPhotoPath?.let { java.io.File(it) }
+                    if (previewModel != null) {
+                        AsyncImage(
+                            model = previewModel,
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .size(48.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                        )
                     }
+                    TextButton(onClick = onPickCamera) { Text(stringResource(R.string.scan_camera)) }
+                    TextButton(onClick = onPickGallery) { Text(stringResource(R.string.scan_gallery)) }
                 }
             }
         },

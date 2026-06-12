@@ -118,13 +118,23 @@ class ShoppingViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun updateItem(item: ShoppingItemEntity, name: String, unitPrice: Double?, quantity: Int) {
+    fun updateItem(
+        item: ShoppingItemEntity,
+        name: String,
+        unitPrice: Double?,
+        quantity: Int,
+        photoSource: Uri? = null
+    ) {
         viewModelScope.launch {
+            // Si se elige una foto nueva la guardamos; si no, se conserva la actual.
+            val photoPath = photoSource?.let { ImageUtils.persistImage(getApplication(), it) }
+                ?: item.photoUri
             repository.updateShoppingItem(
                 item.copy(
                     name = name,
                     unitPrice = unitPrice,
-                    quantity = quantity.coerceAtLeast(1)
+                    quantity = quantity.coerceAtLeast(1),
+                    photoUri = photoPath
                 )
             )
             syncList(item.shoppingListId)
