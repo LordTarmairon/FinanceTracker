@@ -20,6 +20,9 @@ interface TransactionDao {
     @Delete
     suspend fun delete(transaction: TransactionEntity)
 
+    @Query("SELECT * FROM transactions WHERE id = :id LIMIT 1")
+    suspend fun getById(id: Long): TransactionEntity?
+
     @Query("SELECT * FROM transactions ORDER BY dateEpochMillis DESC")
     fun observeAll(): Flow<List<TransactionEntity>>
 

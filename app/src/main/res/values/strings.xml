@@ -116,9 +116,18 @@
     <string name="shopping_total">Total</string>
     <string name="shopping_empty_items">Esta lista está vacía. Añade productos con +.</string>
     <string name="shopping_item_add">Añadir producto</string>
+    <string name="shopping_item_edit">Editar producto</string>
     <string name="shopping_item_name">Producto</string>
     <string name="shopping_item_price">Precio</string>
     <string name="shopping_item_qty">Cantidad</string>
+    <string name="shopping_no_price">Sin precio</string>
+    <string name="shopping_taxes">Impuestos</string>
+    <string name="shopping_copy">Copiar lista</string>
+    <string name="shopping_completed">Completada</string>
+    <string name="shopping_completed_banner">Lista completada · incluida en tus gastos</string>
+    <string name="shopping_items_count">%1$d/%2$d artículos</string>
+    <string name="shopping_progress">%1$d/%2$d comprados</string>
+    <string name="action_apply">Aplicar</string>
 
     <!-- Ajustes -->
     <string name="settings_currency">Moneda por defecto</string>

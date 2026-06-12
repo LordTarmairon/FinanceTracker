@@ -34,6 +34,10 @@ class FinanceRepository(private val db: AppDatabase) {
     suspend fun deleteTransaction(transaction: TransactionEntity) =
         transactionDao.delete(transaction)
 
+    suspend fun getTransaction(id: Long): TransactionEntity? = transactionDao.getById(id)
+
+    suspend fun deleteTransactionById(id: Long) = transactionDao.deleteById(id)
+
     // --- Servicios recurrentes ---
 
     fun observeServices(): Flow<List<ServiceEntity>> = serviceDao.observeAll()
@@ -50,6 +54,8 @@ class FinanceRepository(private val db: AppDatabase) {
 
     fun observeShoppingList(id: Long): Flow<ShoppingListEntity?> = shoppingListDao.observeById(id)
 
+    suspend fun getShoppingList(id: Long): ShoppingListEntity? = shoppingListDao.getById(id)
+
     suspend fun addShoppingList(list: ShoppingListEntity): Long = shoppingListDao.insert(list)
 
     suspend fun updateShoppingList(list: ShoppingListEntity) = shoppingListDao.update(list)
@@ -58,6 +64,11 @@ class FinanceRepository(private val db: AppDatabase) {
 
     fun observeShoppingItems(listId: Long): Flow<List<ShoppingItemEntity>> =
         shoppingItemDao.observeByShoppingListId(listId)
+
+    fun observeAllShoppingItems(): Flow<List<ShoppingItemEntity>> = shoppingItemDao.observeAll()
+
+    suspend fun getShoppingItems(listId: Long): List<ShoppingItemEntity> =
+        shoppingItemDao.getByShoppingListId(listId)
 
     suspend fun addShoppingItem(item: ShoppingItemEntity): Long = shoppingItemDao.insert(item)
 

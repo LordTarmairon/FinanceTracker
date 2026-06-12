@@ -116,9 +116,18 @@
     <string name="shopping_total">Total</string>
     <string name="shopping_empty_items">This list is empty. Add items with +.</string>
     <string name="shopping_item_add">Add item</string>
+    <string name="shopping_item_edit">Edit item</string>
     <string name="shopping_item_name">Item</string>
     <string name="shopping_item_price">Price</string>
     <string name="shopping_item_qty">Qty</string>
+    <string name="shopping_no_price">No price</string>
+    <string name="shopping_taxes">Taxes</string>
+    <string name="shopping_copy">Copy list</string>
+    <string name="shopping_completed">Completed</string>
+    <string name="shopping_completed_banner">List completed · included in your expenses</string>
+    <string name="shopping_items_count">%1$d/%2$d items</string>
+    <string name="shopping_progress">%1$d/%2$d purchased</string>
+    <string name="action_apply">Apply</string>
 
     <!-- Settings -->
     <string name="settings_currency">Default currency</string>

@@ -22,6 +22,9 @@ interface ShoppingListDao {
     @Query("SELECT * FROM shopping_lists WHERE id = :id LIMIT 1")
     fun observeById(id: Long): Flow<ShoppingListEntity?>
 
+    @Query("SELECT * FROM shopping_lists WHERE id = :id LIMIT 1")
+    suspend fun getById(id: Long): ShoppingListEntity?
+
     @Query("DELETE FROM shopping_lists WHERE id = :id")
     suspend fun deleteById(id: Long)
 }
