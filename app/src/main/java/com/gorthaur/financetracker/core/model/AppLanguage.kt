@@ -4,5 +4,4 @@ enum class AppLanguage {
     SYSTEM,
     ENGLISH,
     SPANISH,
-    KOREAN,
 }

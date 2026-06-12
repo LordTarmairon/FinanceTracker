@@ -10,7 +10,6 @@ object AppLanguageManager {
             AppLanguage.SYSTEM -> LocaleListCompat.getEmptyLocaleList()
             AppLanguage.ENGLISH -> LocaleListCompat.forLanguageTags("en")
             AppLanguage.SPANISH -> LocaleListCompat.forLanguageTags("es")
-            AppLanguage.KOREAN -> LocaleListCompat.forLanguageTags("kr")
         }
         AppCompatDelegate.setApplicationLocales(locales)
     }

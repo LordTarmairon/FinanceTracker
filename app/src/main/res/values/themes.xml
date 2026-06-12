@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.FinanceTracker" parent="android:Theme.Material.Light.NoActionBar"/>
+    <!-- Tema base AppCompat: necesario para AppCompatActivity y para que el cambio
+         de idioma por-app funcione (AppCompatDelegate.setApplicationLocales).
+         La interfaz real la pinta Compose. -->
+    <style name="Theme.FinanceTracker" parent="Theme.AppCompat.Light.NoActionBar"/>
 </resources>

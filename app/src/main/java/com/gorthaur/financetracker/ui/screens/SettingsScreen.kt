@@ -53,22 +53,10 @@ fun SettingsScreen(appState: FinanceAppState) {
 
         Text(text = stringResource(R.string.settings_subtitle))
 
-        Text(
-            text = "${stringResource(R.string.settings_language)}: ${stringResource(prefs.language.labelRes())}"
+        LanguageSelector(
+            current = prefs.language,
+            onSelected = { appState.setLanguage(it) }
         )
-        Button(
-            onClick = {
-                val next = when (prefs.language) {
-                    AppLanguage.SYSTEM -> AppLanguage.ENGLISH
-                    AppLanguage.ENGLISH -> AppLanguage.SPANISH
-                    AppLanguage.SPANISH -> AppLanguage.KOREAN
-                    AppLanguage.KOREAN -> AppLanguage.SYSTEM
-                }
-                appState.setLanguage(next)
-            }
-        ) {
-            Text(stringResource(R.string.action_change_language))
-        }
 
         Text(
             text = "${stringResource(R.string.settings_theme)}: ${stringResource(prefs.themePalette.labelRes())}"
@@ -117,6 +105,42 @@ fun SettingsScreen(appState: FinanceAppState) {
             currentKey = prefs.aiApiKey,
             onSave = { appState.setAiApiKey(it) }
         )
+    }
+}
+
+@Composable
+private fun LanguageSelector(
+    current: AppLanguage,
+    onSelected: (AppLanguage) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    Text(
+        text = stringResource(R.string.settings_language),
+        style = MaterialTheme.typography.titleMedium
+    )
+    Box {
+        OutlinedTextField(
+            value = stringResource(current.labelRes()),
+            onValueChange = {},
+            readOnly = true,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .clickable { expanded = true }
+        )
+        DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+            AppLanguage.entries.forEach { option ->
+                DropdownMenuItem(
+                    text = { Text(stringResource(option.labelRes())) },
+                    onClick = {
+                        onSelected(option)
+                        expanded = false
+                    }
+                )
+            }
+        }
     }
 }
 

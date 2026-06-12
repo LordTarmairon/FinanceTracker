@@ -1,20 +1,19 @@
 package com.gorthaur.financetracker
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import com.gorthaur.financetracker.core.util.AppLanguageManager
 import com.gorthaur.financetracker.data.local.SettingsDataStore
 import com.gorthaur.financetracker.ui.app.FinanceApp
 import com.gorthaur.financetracker.ui.app.FinanceAppState
 
 import com.gorthaur.financetracker.ui.theme.FinanceTrackerTheme
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -25,10 +24,6 @@ class MainActivity : ComponentActivity() {
 
             LaunchedEffect(Unit) {
                 appState.startObserving()
-            }
-
-            LaunchedEffect(appState.preferences.language) {
-                AppLanguageManager.applyLanguage(appState.preferences.language)
             }
 
             FinanceTrackerTheme(

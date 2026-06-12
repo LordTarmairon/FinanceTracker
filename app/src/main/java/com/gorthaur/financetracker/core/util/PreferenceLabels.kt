@@ -8,10 +8,9 @@ import com.gorthaur.financetracker.core.model.AppThemePalette
 
 @StringRes
 fun AppLanguage.labelRes(): Int = when (this) {
-    AppLanguage.SYSTEM -> R.string.theme_mode_system
+    AppLanguage.SYSTEM -> R.string.language_system
     AppLanguage.ENGLISH -> R.string.language_english
     AppLanguage.SPANISH -> R.string.language_spanish
-    AppLanguage.KOREAN -> R.string.language_korean
 }
 @StringRes
 fun AppThemePalette.labelRes(): Int = when (this) {

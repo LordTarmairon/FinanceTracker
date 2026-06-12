@@ -5,6 +5,7 @@ import com.gorthaur.financetracker.core.model.AppThemeMode
 import com.gorthaur.financetracker.core.model.AppThemePalette
 import com.gorthaur.financetracker.core.model.CurrencyCode
 import com.gorthaur.financetracker.core.model.FinanceAppPreferences
+import com.gorthaur.financetracker.core.util.AppLanguageManager
 import com.gorthaur.financetracker.data.local.SettingsDataStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
@@ -29,6 +30,11 @@ class FinanceAppState(
     }
 
     fun setLanguage(language: AppLanguage) {
+        // Aplica el idioma de inmediato (en el hilo principal, por la acción del
+        // usuario). AppCompat lo persiste y lo restaura al reabrir la app, así que
+        // NO lo aplicamos desde un efecto reactivo: hacerlo provocaba un bucle de
+        // recreación (el valor por defecto reseteaba el locale en cada recreación).
+        AppLanguageManager.applyLanguage(language)
         scope.launch {
             settingsDataStore.setLanguage(language)
         }
