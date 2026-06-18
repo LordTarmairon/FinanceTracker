@@ -3,8 +3,11 @@ package com.gorthaur.financetracker.ui.app
 import com.gorthaur.financetracker.core.model.AppLanguage
 import com.gorthaur.financetracker.core.model.AppThemeMode
 import com.gorthaur.financetracker.core.model.AppThemePalette
+import com.gorthaur.financetracker.core.model.CurrencyCode
 import com.gorthaur.financetracker.core.model.FinanceAppPreferences
+import com.gorthaur.financetracker.core.util.AppLanguageManager
 import com.gorthaur.financetracker.data.local.SettingsDataStore
+import com.gorthaur.financetracker.data.remote.ExchangeRateClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -16,6 +19,8 @@ class FinanceAppState(
     private val settingsDataStore: SettingsDataStore,
     private val scope: CoroutineScope
 ) {
+    private val exchangeRateClient = ExchangeRateClient()
+
     var preferences by mutableStateOf(FinanceAppPreferences())
         private set
 
@@ -28,6 +33,11 @@ class FinanceAppState(
     }
 
     fun setLanguage(language: AppLanguage) {
+        // Aplica el idioma de inmediato (en el hilo principal, por la acción del
+        // usuario). AppCompat lo persiste y lo restaura al reabrir la app, así que
+        // NO lo aplicamos desde un efecto reactivo: hacerlo provocaba un bucle de
+        // recreación (el valor por defecto reseteaba el locale en cada recreación).
+        AppLanguageManager.applyLanguage(language)
         scope.launch {
             settingsDataStore.setLanguage(language)
         }
@@ -42,6 +52,38 @@ class FinanceAppState(
     fun setThemeMode(mode: AppThemeMode) {
         scope.launch {
             settingsDataStore.setThemeMode(mode)
+        }
+    }
+
+    fun setDefaultCurrency(currency: CurrencyCode) {
+        scope.launch {
+            settingsDataStore.setDefaultCurrency(currency)
+        }
+    }
+
+    /** Cambia manualmente cuántas unidades de [currency] equivalen a 1 €. */
+    fun setExchangeRate(currency: CurrencyCode, unitsPerEur: Double) {
+        scope.launch {
+            settingsDataStore.setExchangeRates(
+                preferences.exchangeRates.withRate(currency, unitsPerEur)
+            )
+        }
+    }
+
+    /** Actualiza los tipos de cambio desde internet. [onResult] indica el éxito. */
+    fun refreshExchangeRates(onResult: (Boolean) -> Unit) {
+        scope.launch {
+            val rates = exchangeRateClient.fetchLatest()
+            if (rates != null) {
+                settingsDataStore.setExchangeRates(rates)
+            }
+            onResult(rates != null)
+        }
+    }
+
+    fun setAiApiKey(apiKey: String) {
+        scope.launch {
+            settingsDataStore.setAiApiKey(apiKey)
         }
     }
 }

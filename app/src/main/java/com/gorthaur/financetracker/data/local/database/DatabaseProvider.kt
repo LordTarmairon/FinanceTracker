@@ -12,7 +12,11 @@ object DatabaseProvider {
                 context.applicationContext,
                 AppDatabase::class.java,
                 "finance_tracker_db"
-            ).build()
+            )
+                // La app aún está en desarrollo: si cambia el esquema preferimos
+                // recrear la base de datos local antes que escribir migraciones.
+                .fallbackToDestructiveMigration(dropAllTables = true)
+                .build()
 
             INSTANCE = instance
             instance

@@ -1,9 +1,22 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
-    id("com.google.devtools.ksp") version "1.9.22-1.0.17"
+    id("com.google.devtools.ksp") version "2.0.21-1.0.28"
 }
+
+// Credenciales de firma de release. El fichero keystore.properties está en
+// .gitignore (no se sube): pon ahí storeFile/storePassword/keyAlias/keyPassword.
+val keystorePropsFile = rootProject.file("keystore.properties")
+val keystoreProps = Properties().apply {
+    if (keystorePropsFile.exists()) {
+        FileInputStream(keystorePropsFile).use { load(it) }
+    }
+}
+val hasReleaseSigning = keystorePropsFile.exists()
 
 android {
     namespace = "com.gorthaur.financetracker"
@@ -22,10 +35,27 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        if (hasReleaseSigning) {
+            create("release") {
+                storeFile = rootProject.file(keystoreProps["storeFile"] as String)
+                storePassword = keystoreProps["storePassword"] as String
+                keyAlias = keystoreProps["keyAlias"] as String
+                keyPassword = keystoreProps["keyPassword"] as String
+            }
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            // Solo firma como release si existe keystore.properties; si no, queda
+            // sin firmar (útil para que el repo compile sin los secretos).
+            if (hasReleaseSigning) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
     compileOptions {
@@ -75,4 +105,13 @@ dependencies {
     implementation("androidx.room:room-runtime:2.8.0")
     implementation("androidx.room:room-ktx:2.8.0")
     ksp("androidx.room:room-compiler:2.8.0")
+
+    // Corrutinas
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+
+    // Llamadas HTTP a la API de IA
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
+    // Carga de imágenes (fotos de tickets y productos)
+    implementation("io.coil-kt:coil-compose:2.6.0")
 }

@@ -28,5 +28,7 @@ data class ShoppingItemEntity(
     val name: String,
     val photoUri: String? = null,
     val unitPrice: Double? = null,
-    val quantity: Int = 1
+    val quantity: Int = 1,
+    /** Marcado cuando ya se ha comprado el producto. */
+    val purchased: Boolean = false
 )
